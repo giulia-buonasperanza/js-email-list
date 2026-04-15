@@ -4,10 +4,10 @@
 
 
 const API_URL_RANDOM_MAIL = 'https://flynn.boolean.careers/exercises/api/random/mail';
-const mailList = document.querySelector("#mail-list");
+const mailListHTML = document.querySelector("#mail-list");
 const btnMailList = document.querySelector("#btn-mail-list");
 
-
+const mailList =[]; //array per contenere le mail random
 
 //fetch() e catena di promesse  
 
@@ -17,6 +17,11 @@ fetch(API_URL_RANDOM_MAIL)
     })
     .then ((jsonData)=>{
         console.log(jsonData);//controllo se è tutto giusto 
+        
+        const randomEmail = jsonData.response;
 
-        const randomEmail = jsonData.results;
+        console.log(randomEmail);
+        mailList.push(randomEmail);//pusho la mail random dentro il mio array
+        console.log(mailList);
 });
+
