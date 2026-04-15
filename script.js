@@ -11,30 +11,39 @@ const mailList = []; //array per contenere le mail random
 
 //fetch() e catena di promesse  
 
-for (let i = 0; i < 10; i++) {
-    fetch(API_URL_RANDOM_MAIL)
-        .then((risposta) => {
-            return risposta.json();
-        })
-        .then((jsonData) => {
-            //console.log(jsonData);//controllo se è tutto giusto 
+function getRandomMail() { //inserisco la funzione per generare le mail random, che viene chiamata al click del bottone
+    mailListHTML.innerHTML = '';//svuoto la lista HTML prima di generare nuove mail
+    mailList.length = 0; //svuoto l'array prima di generare nuove mail
 
-            const randomEmail = jsonData.response;
+    for (let i = 0; i < 10; i++) {
+        fetch(API_URL_RANDOM_MAIL)
+            .then((risposta) => {
+                return risposta.json();
+            })
+            .then((jsonData) => {
+                //console.log(jsonData);//controllo se è tutto giusto 
 
-            //console.log(randomEmail);
-            mailList.push(randomEmail);//pusho la mail random dentro il mio array
-            console.log(mailList);
+                const randomEmail = jsonData.response;
 
-            if (mailList.length === 10) {//solo se hai tutte le 10 mail
+                //console.log(randomEmail);
+                mailList.push(randomEmail);//pusho la mail random dentro il mio array
+                console.log(mailList);
 
-                const mailListElement = mailList.map(mail => { //con map creo un nuovo array con le mail formattate in html
-                    return `<li>${mail}</li>`;
-                });
+                if (mailList.length === 10) {//solo se hai tutte le 10 mail
 
-                mailListHTML.innerHTML = mailListElement.join(''); //con join('') ottengo una lista HTML completa da inserire nella pagina
-            };
+                    const mailListElement = mailList.map(mail => { //con map creo un nuovo array con le mail formattate in html
+                        return `<li>${mail}</li>`;
+                    });
+
+                    mailListHTML.innerHTML = mailListElement.join(''); //con join('') ottengo una lista HTML completa da inserire nella pagina
+                };
 
 
-        })
+            })
+    };
 };
 
+//event listener per il click del bottone
+btnMailList.addEventListener('click', function () {
+    getRandomMail();
+});
