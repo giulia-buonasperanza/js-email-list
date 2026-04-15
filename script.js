@@ -11,19 +11,30 @@ const mailList = []; //array per contenere le mail random
 
 //fetch() e catena di promesse  
 
-for(let i = 0; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
     fetch(API_URL_RANDOM_MAIL)
         .then((risposta) => {
             return risposta.json();
         })
         .then((jsonData) => {
-            console.log(jsonData);//controllo se è tutto giusto 
+            //console.log(jsonData);//controllo se è tutto giusto 
 
             const randomEmail = jsonData.response;
 
-            console.log(randomEmail);
+            //console.log(randomEmail);
             mailList.push(randomEmail);//pusho la mail random dentro il mio array
             console.log(mailList);
-        });
+
+            if (mailList.length === 10) {//solo se hai tutte le 10 mail
+
+                const mailListElement = mailList.map(mail => { //con map creo un nuovo array con le mail formattate in html
+                    return `<li>${mail}</li>`;
+                });
+
+                mailListHTML.innerHTML = mailListElement.join(''); //con join('') ottengo una lista HTML completa da inserire nella pagina
+            };
+
+
+        })
 };
 
